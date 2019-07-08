@@ -10,6 +10,7 @@ import pandas as pd
 df = pd.read_excel('output/HA_articles_parsed_manual_v2.xlsx')
 df = df.rename({'Unnamed: 0':'id'}, axis=1)
 #df['Title_alt'] = df['Title'] + ' (OR Health Affairs OR healthaffairs OR health_affairs)'
+df['Title'] = df.Title.str.replace('-', ' ').str.replace('/', ' ').str.replace(':', ' ')
 df['Title_alt'] = df['Title']
 # generate articles dataframe
 article_df = pd.DataFrame()

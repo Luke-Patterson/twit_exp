@@ -12,6 +12,7 @@ import pandas as pd
 
 df = pd.read_excel('output/HA_articles_parsed_manual_v2.xlsx')
 df = df.rename({'Unnamed: 0':'id'}, axis=1)
+df['Title'] = df.Title.str.replace('-', ' ').str.replace('/', ' ').str.replace('\', ' ').str.replace(':', ' ')
 df['Title_alt'] = df['Title'] + ' (OR Health Affairs OR healthaffairs OR health_affairs)'
 if df['Publication Date'].dtype == 'object':
     try:
@@ -38,6 +39,6 @@ for i in article_df.iterrows():
         ignore_index = True, sort = False)
     if len(tweet_df.index) !=0 :
         tweet_df.sort_values('created_at',ascending=False).to_csv('output/prospect_alt/'+
-            str(i[0]) + '_tweet_data.csv', index = False, encoding='utf-8')
+            str(i[0]) + '_' +  i[1]['Title'][0:40] '_tweet_data.csv', index = False, encoding='utf-8')
 
 count_df.to_csv("output/prospect_alt/tweet_counts.csv")
